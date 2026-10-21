@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Técnico</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            background-color: #f8faff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Degradado y luces ambientales de fondo */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(0, 85, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.05) 0%, transparent 40%),
+                linear-gradient(to right, #ffffff, #f0f4f8);
+        }
+
+        /* Patrón de cuadrícula técnica */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: 
+                linear-gradient(to right, rgba(0, 85, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 85, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        /* Animación suave de respiración del logo */
+        .bg-logo {
+            width: auto;
+            max-width: 100%;
+            height: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            opacity: 0.16;
+            animation: logoBreathe 4s ease-in-out infinite; 
+            transform-origin: center center;
+        }
+
+        @keyframes logoBreathe {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px rgba(0, 85, 255, 0.3));
+            }
+            50% {
+                transform: scale(1.06);
+                filter: drop-shadow(0 0 65px rgba(0, 85, 255, 0.6));
+            }
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px rgba(0, 85, 255, 0.3));
+            }
+        }
+
+        /* Animación de los botones flotantes */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .btn-float { 
+            animation: float 4s ease-in-out infinite; 
+        }
+        .delay-1 { animation-delay: 0s; }
+        .delay-2 { animation-delay: 0.7s; }
+        .delay-3 { animation-delay: 1.4s; }
+
+        /* Animación de entrada inicial escalonada */
+        @keyframes fadeUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(25px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .entrance-anim {
+            animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        .stagger-0 { animation-delay: 0.1s; }
+        .stagger-1 { animation-delay: 0.25s; }
+        .stagger-2 { animation-delay: 0.4s; }
+        .stagger-3 { animation-delay: 0.55s; }
+
+        /* Lluvia de partículas técnicas */
+        @keyframes fall {
+            0% { 
+                transform: translateY(-10vh); 
+                opacity: var(--start-opacity, 0.8); 
+            }
+            100% { 
+                transform: translateY(110vh); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes sway {
+            0% { transform: translateX(-15px) rotate(-10deg); }
+            50% { transform: translateX(15px) rotate(10deg); }
+            100% { transform: translateX(-15px) rotate(-10deg); }
+        }
+
+        .particle-wrapper {
+            position: absolute;
+            top: -50px;
+            z-index: 1;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .particle-inner {
+            display: inline-block;
+        }
+
+        /* Estilo Glassmorphism Premium */
+        .glass-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(240, 245, 255, 0.75) 100%);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(0, 85, 255, 0.25);
+            box-shadow: 
+                0 4px 20px rgba(0, 85, 255, 0.06),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+            color: #0044cc;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        /* Efecto de destello de luz al pasar el cursor */
+        .glass-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glass-btn:hover::before {
+            left: 150%;
+        }
+
+        .glass-btn:hover {
+            border-color: #0055ff;
+            box-shadow: 
+                0 10px 25px rgba(0, 85, 255, 0.16),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.9),
+                0 0 18px rgba(0, 85, 255, 0.22);
+            transform: translateY(-2px) scale(1.015);
+            color: #0033aa;
+        }
+
+        .glass-btn:active {
+            transform: translateY(0px) scale(0.995);
+        }
+
+        .btn-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Gradiente en título */
+        .text-gradient {
+            background: linear-gradient(135deg, #0052cc 0%, #0099ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="relative h-screen w-screen overflow-hidden flex items-center justify-center p-4 sm:p-6 lg:p-8">
+
+    <!-- Fondos y luces ambientales fijas -->
+    <div class="ambien  t-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Contenedor Maestro Simétrico de 2 Columnas -->
+    <div class="relative z-10 w-full max-w-[1600px] h-full flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 px-4">
+        
+        <!-- Columna Izquierda: Menú Interactivo de Bienvenida -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center lg:justify-start">
+            <main class="flex flex-col gap-5 sm:gap-6 w-full max-w-lg px-2 sm:px-6 relative">
+                
+                <!-- Encabezado Principal -->
+                <header class="entrance-anim stagger-0 mb-2 sm:mb-4">
+                    <span class="inline-block text-xs uppercase tracking-widest font-bold text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-3 py-1 mb-2">
+                        Portal Académico
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-gradient mb-2 drop-shadow-sm tracking-tight">
+                        BIENVENIDO
+                    </h1>
+                    <h2 class="text-gray-600 text-base sm:text-lg font-medium">
+                        ¿A dónde te diriges hoy?
+                    </h2>
+                </header>
+
+                <!-- Botón 1: Bachillerato en Soporte Informático -->
+                <div class="entrance-anim stagger-2">
+                    <div class="btn-float delay-2">
+                        <a href="nuevo_bachillerato.html" class="glass-btn w-full py-4 sm:py-5 px-5 sm:px-6 rounded-2xl text-base sm:text-lg font-bold group">
+                            <span class="btn-content flex items-center gap-3 sm:gap-4">
+                                <span class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:-translate-y-1 transition-transform duration-300 shadow-sm border border-blue-100">
+                                    💻
+                                </span>
+                                <span>Bachillerato en Soporte Informático</span>
+                            </span>
+                            <span class="btn-content text-[#0055ff] opacity-40 font-bold group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300">
+                                &gt;&gt;
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Botón 2: Repositorio -->
+                <div class="entrance-anim stagger-1">
+                    <div class="btn-float delay-1">
+                        <a href="repositorio.html" class="glass-btn w-full py-4 sm:py-5 px-5 sm:px-6 rounded-2xl text-base sm:text-lg font-bold group">
+                            <span class="btn-content flex items-center gap-3 sm:gap-4">
+                                <span class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:rotate-90 transition-transform duration-500 shadow-sm border border-blue-100">
+                                    ⚙️
+                                </span>
+                                <span>Repositorio</span>
+                            </span>
+                            <span class="btn-content text-[#0055ff] opacity-40 font-bold group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300">
+                                &gt;&gt;
+                            </span>
+                        </a>
+                    </div>
+                </div>                
+
+                <!-- Botón 3: Inventario -->
+                <div class="entrance-anim stagger-3">
+                    <div class="btn-float delay-3">
+                        <a href="inventario.html" class="glass-btn w-full py-4 sm:py-5 px-5 sm:px-6 rounded-2xl text-base sm:text-lg font-bold group">
+                            <span class="btn-content flex items-center gap-3 sm:gap-4">
+                                <span class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-sm border border-blue-100">
+                                    🛠️
+                                </span>
+                                <span>Inventario</span>
+                            </span>
+                            <span class="btn-content text-[#0055ff] opacity-40 font-bold group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300">
+                                &gt;&gt;
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+    <!-- Columna Derecha: Logo en marca de agua dinámico (90% alto de pantalla en PC) -->
+        <div class="w-full lg:w-7/12 h-[45vh] lg:h-[90vh] flex items-center justify-center pointer-events-none relative select-none">
+            <div class="relative w-full h-full max-h-[90vh] flex items-center justify-center">
+                <img src="assets/images/Logo Área Informática sin fondo con logo del colegio.png" 
+                     alt="Logo Área Informática" 
+                     class="bg-logo"
+                     onerror="handleLogoFallback(this)">
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor para las partículas de lluvia binaria y técnica -->
+    <div id="particles-container" class="fixed inset-0 z-0 overflow-hidden pointer-events-none"></div>
+
+    <script>
+        // Fallback elegante en caso de que la imagen local aún no esté cargada
+        function handleLogoFallback(img) {
+            img.onerror = null;
+            // SVG técnico de alta fidelidad que representa informática y educación técnica
+            const svgFallback = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none"><circle cx="120" cy="120" r="100" stroke="%230055ff" stroke-width="4" stroke-dasharray="12 8" opacity="0.4"/><polygon points="120,40 185,78 185,152 120,190 55,152 55,78" stroke="%230055ff" stroke-width="5" fill="rgba(0,85,255,0.04)"/><rect x="80" y="90" width="80" height="50" rx="8" stroke="%230055ff" stroke-width="4" fill="%23ffffff"/><line x1="100" y1="150" x2="140" y2="150" stroke="%230055ff" stroke-width="4" stroke-linecap="round"/><circle cx="120" cy="115" r="12" fill="%230055ff" opacity="0.8"/><path d="M70 120 L50 120 M190 120 L170 120 M120 70 L120 50 M120 190 L120 170" stroke="%2300aaff" stroke-width="4" stroke-linecap="round"/></svg>`;
+            img.src = svgFallback;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('particles-container');
+            const elements = ['0', '1', '⚙️', '💻', '🛠️', '🔧', '0', '1', '0', '1'];
+            
+            function createParticle() {
+                if (!container) return;
+                
+                // Contenedor para la trayectoria vertical
+                const wrapper = document.createElement('div');
+                wrapper.className = 'particle-wrapper';
+                
+                // Elemento interno para el balanceo (sway) y contenido visual
+                const inner = document.createElement('div');
+                inner.className = 'particle-inner';
+                
+                const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                inner.textContent = randomElement;
+                
+                if (randomElement === '0' || randomElement === '1') {
+                    // Estilo binario tipo Matrix en tono dorado/ámbar
+                    inner.classList.add('text-yellow-400', 'font-extrabold', 'text-2xl');
+                    inner.style.textShadow = '0 0 8px rgba(250, 204, 21, 0.6)';
+                    wrapper.style.setProperty('--start-opacity', '0.7');
+                } else {
+                    // Estilo para los emojis técnicos
+                    inner.classList.add('text-2xl', 'grayscale-[30%]');
+                    wrapper.style.setProperty('--start-opacity', '0.35');
+                }
+
+                // Posición horizontal en pantalla
+                const startPositionLeft = Math.random() * 100;
+                wrapper.style.left = `${startPositionLeft}vw`;
+
+                // Duración de caída entre 6 y 11 segundos
+                const fallDuration = Math.random() * 5 + 6;
+                wrapper.style.animation = `fall ${fallDuration}s linear forwards`;
+
+                // Duración de balanceo desincronizada
+                const swayDuration = Math.random() * 3 + 2.5;
+                inner.style.animation = `sway ${swayDuration}s ease-in-out infinite`;
+
+                wrapper.appendChild(inner);
+                container.appendChild(wrapper);
+
+                // Limpieza garantizada sin fugas de memoria
+                setTimeout(() => {
+                    if (wrapper && wrapper.parentNode) {
+                        wrapper.remove();
+                    }
+                }, (fallDuration + 1) * 1000);
+            }
+
+            // Generador periódico de partículas
+            const intervalId = setInterval(createParticle, 380);
+
+            // Partículas iniciales para evitar pantalla vacía al cargar
+            for (let i = 0; i < 12; i++) {
+                setTimeout(createParticle, Math.random() * 1800);
+            }
+        });
+    </script>
+</body>
+</html>
